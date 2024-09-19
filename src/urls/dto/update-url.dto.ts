@@ -4,8 +4,9 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-vali
 //   IsNomeUsuarioUnico,
 // } from '../validator/email.validator';
 import { Expose } from 'class-transformer';
+import { UserEntity } from 'src/user/entities/user.enetity';
 
-export class CreateUserDto {
+export class UpdateUrlDto {
 
   @Expose({ name: 'url' })
   @IsString()
@@ -16,7 +17,7 @@ export class CreateUserDto {
   @Expose({ name: 'user' })
   @IsString()
   @IsOptional()
-  usuario: string;
+  user: UserEntity;
 
   updatedAt: string;
   deletedAt: string;
