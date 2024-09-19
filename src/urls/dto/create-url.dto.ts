@@ -1,22 +1,25 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl, MinLength } from 'class-validator';
 // import {
 //   EmailEhUnico,
 //   IsNomeUsuarioUnico,
 // } from '../validator/email.validator';
 import { Exclude, Expose } from 'class-transformer';
+import { UserEntity } from 'src/user/entities/user.enetity';
 
-export class CreateUserDto {
+export class CreateUrlDto {
+
+  id: string;
 
   @Expose({ name: 'url' })
-  @IsString()
-  @IsNotEmpty({ message: 'The name should not be empty.' })
+  @IsUrl()
+  @IsNotEmpty({ message: 'The url should not be empty.' })
 //   @IsNomeUsuarioUnico({ message: 'This user name alredy exist.' })
   url: string;
 
   @Expose({ name: 'user' })
   @IsString()
   @IsOptional()
-  usuario: string;
+  userId: string;
 
   createdAt: string;
   updatedAt: string;

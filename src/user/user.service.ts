@@ -21,7 +21,7 @@ export class UserService {
   async usersList() {
     const savedUsers = await this.userRopository.find();
     const usersList = savedUsers.map(
-      (users) => new UserListDto(users.id, users.nome),
+      (users) => new UserListDto(users.id, users.nickName, users.email, users.urls),
     );
 
     return usersList;
@@ -33,5 +33,11 @@ export class UserService {
 
   async deleteUser(id: string) {
     return await this.userRopository.delete(id);
+  }
+
+  async verificaEmail(email: string): Promise<boolean> {
+      const possivelUsuario = await this.userRopository.findOneBy({ email });
+
+      return !!possivelUsuario;
   }
 }
