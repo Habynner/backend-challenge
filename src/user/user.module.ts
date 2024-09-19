@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
-// import {
-//   EmailEhUnicoValidator,
-//   NomeEhUnicoValidator,
-// } from './validator/email-unico.validator';
+import {
+  EmailEhUnicoValidator,
+  // NomeEhUnicoValidator,
+} from './validator/email.validator';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.enetity';
 import { UserService } from './user.service';
@@ -13,7 +13,7 @@ import { UserService } from './user.service';
   controllers: [UserController],
   providers: [
     UserService,
-    // EmailEhUnicoValidator,
+    EmailEhUnicoValidator,
     // NomeEhUnicoValidator,
   ],
 })

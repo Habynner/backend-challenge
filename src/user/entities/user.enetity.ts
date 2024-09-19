@@ -1,20 +1,32 @@
+import { IsNotEmpty } from 'class-validator';
+import { UrlEntity } from 'src/urls/entities/url.entity';
 import {
   Entity,
   Column,
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  DeleteDateColumn
+  DeleteDateColumn,
+  OneToMany
 } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class UserEntity {
   @Column({ name: 'nome', length: 100, nullable: false })
   nome: string;
+
+  @Column({ name: 'nick_name', length: 100, nullable: false })
+  nickName: string;
+
   @Column({ name: 'email', length: 70, nullable: false })
   email: string;
+
   @Column({ name: 'senha', length: 255, nullable: false })
   senha: string;
+
+  @OneToMany(() => UrlEntity, (url) => url.user)
+  urls: UrlEntity[];
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
