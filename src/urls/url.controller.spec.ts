@@ -6,10 +6,10 @@ import { UpdateUrlDto } from './dto/update-url.dto';
 import { NestResponse } from '../utils/http/nest-response';
 import { NestResponseBuilder } from '../utils/http/nest-response-builder';
 import { HttpStatus } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('UrlController', () => {
   let controller: UrlController;
-  let service: UrlService;
 
   const mockUrlService = {
     createUrl: jest.fn(),
@@ -22,6 +22,12 @@ describe('UrlController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        JwtModule.register({
+          secret: 'test-secret',
+          signOptions: { expiresIn: '60s' },
+        }),
+      ],
       controllers: [UrlController],
       providers: [
         {
@@ -32,11 +38,13 @@ describe('UrlController', () => {
     }).compile();
 
     controller = module.get<UrlController>(UrlController);
-    service = module.get<UrlService>(UrlService);
   });
 
   it('should create a new URL', async () => {
-    const createUrlDto: CreateUrlDto = { originalUrl: 'http://example.com', userId: null };
+    const createUrlDto: CreateUrlDto = {
+      originalUrl: 'http://example.com',
+      userId: null,
+    };
     const createdUrl = { id: 1, ...createUrlDto };
 
     mockUrlService.createUrl.mockResolvedValue(createdUrl);
@@ -50,12 +58,14 @@ describe('UrlController', () => {
           Location: `/url/${createdUrl.originalUrl}`,
         })
         .withBody(createdUrl)
-        .build()
+        .build(),
     );
   });
 
   it('should return a list of URLs', async () => {
-    const urls = [{ originalUrl: 'http://example.com', shortUrl: 'http://short.url' }];
+    const urls = [
+      { originalUrl: 'http://example.com', shortUrl: 'http://short.url' },
+    ];
     mockUrlService.urlsList.mockResolvedValue(urls);
 
     expect(await controller.urlsList()).toEqual(urls);
@@ -63,7 +73,9 @@ describe('UrlController', () => {
 
   it('should return URLs of the authenticated user', async () => {
     const userId = 1;
-    const userUrls = [{ originalUrl: 'http://example.com', shortUrl: 'http://short.url' }];
+    const userUrls = [
+      { originalUrl: 'http://example.com', shortUrl: 'http://short.url' },
+    ];
     const req = { user: { id: userId } };
 
     mockUrlService.findUrlsByUser.mockResolvedValue(userUrls);
@@ -99,6 +111,6 @@ describe('UrlController', () => {
     mockUrlService.redirectShortUrl.mockResolvedValue(originalUrl);
 
     const response = await controller.redirectUrl(shortId);
-    expect(response).toBe({ url: originalUrl });
+    expect(response).toEqual({ url: originalUrl });
   });
 });

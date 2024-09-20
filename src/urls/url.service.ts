@@ -12,7 +12,6 @@ import utils from '../utils/functions/global-functions';
 export class UrlService {
   private readonly baseUrl = 'http://backend-challenge.com';
   constructor(
-
     @InjectRepository(UrlEntity)
     private readonly urlRepository: Repository<UrlEntity>,
 
@@ -20,7 +19,7 @@ export class UrlService {
     private readonly userRopository: Repository<UserEntity>,
   ) {}
 
-  async createUrl(createUrlDto: CreateUrlDto): Promise<UrlEntity>{
+  async createUrl(createUrlDto: CreateUrlDto): Promise<UrlEntity> {
     const { originalUrl, userId } = createUrlDto;
 
     let user: UserEntity | null = null;
@@ -48,7 +47,7 @@ export class UrlService {
 
   async findUrlsByUser(userId: string): Promise<UrlEntity[]> {
     return this.urlRepository.find({
-      where: { user: { id: userId } }
+      where: { user: { id: userId } },
     });
   }
 
@@ -62,7 +61,9 @@ export class UrlService {
 
   async redirectShortUrl(shortId: string): Promise<string> {
     const fullShortUrl = `${this.baseUrl}/${shortId}`;
-    const url = await this.urlRepository.findOne({ where: { shortUrl: fullShortUrl } });
+    const url = await this.urlRepository.findOne({
+      where: { shortUrl: fullShortUrl },
+    });
 
     if (!url) {
       throw new NotFoundException('URL não encontrada');
@@ -75,8 +76,8 @@ export class UrlService {
   }
 
   async verificaUrl(originalUrl: string): Promise<boolean> {
-      const possivelUsuario = await this.urlRepository.findOneBy({ originalUrl });
+    const possivelUsuario = await this.urlRepository.findOneBy({ originalUrl });
 
-      return !!possivelUsuario;
+    return !!possivelUsuario;
   }
 }
