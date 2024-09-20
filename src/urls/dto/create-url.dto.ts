@@ -8,20 +8,24 @@ import { UserEntity } from 'src/user/entities/user.enetity';
 
 export class CreateUrlDto {
 
-  id: string;
+  @IsOptional()
+  id?: string;
 
-  @Expose({ name: 'url' })
+  @Expose({ name: 'originalUrl' })
   @IsUrl()
-  @IsNotEmpty({ message: 'The url should not be empty.' })
+  @IsNotEmpty({ message: 'The originalUrl should not be empty.' })
 //   @IsNomeUsuarioUnico({ message: 'This user name alredy exist.' })
-  url: string;
+  originalUrl: string;
 
   @Expose({ name: 'user' })
   @IsString()
   @IsOptional()
   userId: string;
 
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
+  @IsOptional()
+  createdAt?: string;
+  @IsOptional()
+  updatedAt?: string;
+  @IsOptional()
+  deletedAt?: string;
 }

@@ -15,8 +15,14 @@ import {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ name: 'url', length: 255, nullable: false })
-    url: string;
+    @Column({ name: 'originalUrl', length: 255, nullable: false })
+    originalUrl: string;
+
+    @Column({ name: 'shortUrl', length: 200, nullable: false })
+    shortUrl: string;
+
+    @Column({name: 'clicks', default: 0 })
+    clicks: number;
 
     @ManyToOne(() => UserEntity, (user) => user.urls, { eager: true }) // eager carrega o user automaticamente
     user: UserEntity;
