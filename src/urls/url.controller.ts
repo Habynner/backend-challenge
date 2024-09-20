@@ -17,7 +17,7 @@ import {
   import { NestResponseBuilder } from '../utils/http/nest-response-builder';
   import { UrlService } from './url.service';
 import { CreateUrlAuthGuard } from '../auth/guards/createUrl-auth.guard';
-import { GeneralAuthGuard } from 'src/auth/guards/auth.guard';
+import { GeneralAuthGuard } from '../auth/guards/auth.guard';
 
   @Controller('/url')
   export class UrlController {
@@ -32,7 +32,6 @@ import { GeneralAuthGuard } from 'src/auth/guards/auth.guard';
     ): Promise<NestResponse> {
 
       const createdUrl = await this.urlService.createUrl(createUrlDto);
-      console.log(createdUrl)
       return new NestResponseBuilder()
         .withStatus(HttpStatus.CREATED)
         .withHeader({

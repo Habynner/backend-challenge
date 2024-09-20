@@ -5,7 +5,7 @@ import {
     IsString,
     MinLength,
   } from 'class-validator';
-  import { EmailEhUnico } from '../validator/email.validator';
+  import { EmailEhUnico } from '../../utils/validator/email.validator';
 import { UrlEntity } from 'src/urls/entities/url.entity';
 
   export class UpdateUserDto {
@@ -20,7 +20,7 @@ import { UrlEntity } from 'src/urls/entities/url.entity';
     @IsEmail(undefined, { message: 'email must be e-mail.' })
     @EmailEhUnico({ message: 'This user email alredy exist.' })
     @IsOptional()
-    email: string;
+    email?: string;
 
     @MinLength(6, { message: 'The password do not has less then 6 characthers.' })
     @IsOptional()

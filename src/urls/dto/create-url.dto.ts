@@ -1,10 +1,6 @@
 import { IsNotEmpty, IsOptional, IsString, IsUrl, MinLength } from 'class-validator';
-// import {
-//   EmailEhUnico,
-//   IsNomeUsuarioUnico,
-// } from '../validator/email.validator';
-import { Exclude, Expose } from 'class-transformer';
-import { UserEntity } from 'src/user/entities/user.enetity';
+import { IsUrlUnico } from '../../utils/validator/url.validator';
+import { Expose } from 'class-transformer';
 
 export class CreateUrlDto {
 
@@ -14,7 +10,7 @@ export class CreateUrlDto {
   @Expose({ name: 'originalUrl' })
   @IsUrl()
   @IsNotEmpty({ message: 'The originalUrl should not be empty.' })
-//   @IsNomeUsuarioUnico({ message: 'This user name alredy exist.' })
+  @IsUrlUnico({ message: 'This url alredy exist.' })
   originalUrl: string;
 
   @Expose({ name: 'user' })

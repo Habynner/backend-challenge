@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-import { UserService } from '../user.service';
+import { UserService } from '../../user/user.service';
 
 @Injectable()
 @ValidatorConstraint({ async: true })
@@ -34,30 +34,3 @@ export const EmailEhUnico = (opcoesDeValidacao: ValidationOptions) => {
     });
   };
 };
-
-// @Injectable()
-// @ValidatorConstraint({ async: true })
-// export class NomeEhUnicoValidator implements ValidatorConstraintInterface {
-//   constructor(private userService: UserService) {}
-
-//   async validate(
-//     value: any,
-//     validationArguments?: ValidationArguments,
-//   ): Promise<boolean> {
-//     const usuarioComNomeExiste = await this.userService.existeComNome(
-//       value,
-//     );
-//     return !usuarioComNomeExiste;
-//   }
-// }
-// export const IsNomeUsuarioUnico = (opcoesDeValidacao: ValidationOptions) => {
-//   return (objeto: object, propriedade: string) => {
-//     registerDecorator({
-//       target: objeto.constructor,
-//       propertyName: propriedade,
-//       options: opcoesDeValidacao,
-//       constraints: [],
-//       validator: NomeEhUnicoValidator,
-//     });
-//   };
-// };

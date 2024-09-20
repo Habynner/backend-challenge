@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-vali
 import {
   EmailEhUnico,
   // IsNomeUsuarioUnico,
-} from '../validator/email.validator';
+} from '../../utils/validator/email.validator';
 import { Exclude, Expose } from 'class-transformer';
 import { UrlEntity } from 'src/urls/entities/url.entity';
 

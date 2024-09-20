@@ -6,6 +6,7 @@ import { UpdateUrlDto } from './dto/update-url.dto';
 import { NestResponse } from '../utils/http/nest-response';
 import { NestResponseBuilder } from '../utils/http/nest-response-builder';
 import { HttpStatus } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('UrlController', () => {
   let controller: UrlController;
@@ -22,6 +23,12 @@ describe('UrlController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+        imports: [
+            JwtModule.register({
+              secret: 'test-secret',
+              signOptions: { expiresIn: '60s' },
+            }),
+          ],
       controllers: [UrlController],
       providers: [
         {
@@ -99,6 +106,6 @@ describe('UrlController', () => {
     mockUrlService.redirectShortUrl.mockResolvedValue(originalUrl);
 
     const response = await controller.redirectUrl(shortId);
-    expect(response).toBe({ url: originalUrl });
+    expect(response).toEqual({ url: originalUrl });
   });
 });

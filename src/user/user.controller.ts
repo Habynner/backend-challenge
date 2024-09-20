@@ -26,7 +26,6 @@ import {
       @Body() createUserDto: CreateUserDto,
     ): Promise<NestResponse> {
       const createdUser = await this.userService.createUser(createUserDto);
-      console.log(createdUser)
       return new NestResponseBuilder()
         .withStatus(HttpStatus.CREATED)
         .withHeader({
