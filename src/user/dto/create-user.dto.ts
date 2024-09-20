@@ -14,16 +14,19 @@ export class CreateUserDto {
 
   @Expose({ name: 'name' })
   @IsString()
-  @IsNotEmpty({ message: 'The name should not be empty.' })
+  @IsNotEmpty({
+    message:
+      'O campo name não pode estar vazio. certifique-se de estar usando (name) no payload.',
+  })
   nome: string;
 
   @Expose({ name: 'nickName' })
   @IsString()
-  @IsNotEmpty({ message: 'The nickName should not be empty.' })
+  @IsNotEmpty({ message: 'O campo nickName não pode estar vazio.' })
   nickName: string;
 
-  @IsEmail(undefined, { message: 'email must be e-mail.' })
-  @EmailEhUnico({ message: 'This user email alredy exist.' })
+  @IsEmail(undefined, { message: 'email precisa estar no formato e-mail.' })
+  @EmailEhUnico({ message: 'Email já cadastrado.' })
   email: string;
 
   @IsOptional()
@@ -31,8 +34,11 @@ export class CreateUserDto {
 
   @Expose({ name: 'password' })
   @Exclude({ toPlainOnly: true })
-  @MinLength(6, { message: 'The password do not has less then 6 characthers.' })
-  @IsNotEmpty({ message: 'A senha é obrigatória.' })
+  @MinLength(6, { message: 'A senha não pode ter menos de 6 caracteres.' })
+  @IsNotEmpty({
+    message:
+      'A senha é obrigatória. certifique-se de estar usando (password) no payload.',
+  })
   senha: string;
 
   createdAt: string;
