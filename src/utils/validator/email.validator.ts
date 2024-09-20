@@ -13,12 +13,8 @@ import { UserService } from '../../user/user.service';
 export class EmailEhUnicoValidator implements ValidatorConstraintInterface {
   constructor(private userService: UserService) {}
 
-  async validate(
-    value: any,
-  ): Promise<boolean> {
-    const usuarioComEmailExiste = await this.userService.verificaEmail(
-      value,
-    );
+  async validate(value: any): Promise<boolean> {
+    const usuarioComEmailExiste = await this.userService.verificaEmail(value);
     return !usuarioComEmailExiste;
   }
 }

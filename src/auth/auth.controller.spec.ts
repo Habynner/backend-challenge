@@ -42,9 +42,13 @@ describe('AuthController', () => {
 
     it('should return an error if signIn fails', async () => {
       const signInDto = { username: 'wrongUser', password: 'wrongPass' };
-      mockAuthService.signIn.mockRejectedValue(new Error('Invalid credentials'));
+      mockAuthService.signIn.mockRejectedValue(
+        new Error('Invalid credentials'),
+      );
 
-      await expect(authController.signIn(signInDto)).rejects.toThrow('Invalid credentials');
+      await expect(authController.signIn(signInDto)).rejects.toThrow(
+        'Invalid credentials',
+      );
     });
   });
 });

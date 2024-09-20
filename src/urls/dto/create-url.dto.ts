@@ -1,9 +1,8 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
 import { IsUrlUnico } from '../../utils/validator/url.validator';
 import { Expose } from 'class-transformer';
 
 export class CreateUrlDto {
-
   @IsOptional()
   id?: string;
 

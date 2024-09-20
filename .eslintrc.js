@@ -25,8 +25,9 @@ module.exports = {
       'error',
       {
         singleQuote: true,
-        parser: 'flow',
+        endOfLine: 'lf',
       },
     ],
+    'linebreak-style': ['error', 'unix'],
   },
 };

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
   registerDecorator,
-  ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -13,13 +12,8 @@ import { UrlService } from '../../urls/url.service';
 export class UrlEhUnicoValidator implements ValidatorConstraintInterface {
   constructor(private urlService: UrlService) {}
 
-  async validate(
-    value: any,
-    validationArguments?: ValidationArguments,
-  ): Promise<boolean> {
-    const usuarioComNomeExiste = await this.urlService.verificaUrl(
-      value,
-    );
+  async validate(value: any): Promise<boolean> {
+    const usuarioComNomeExiste = await this.urlService.verificaUrl(value);
     return !usuarioComNomeExiste;
   }
 }

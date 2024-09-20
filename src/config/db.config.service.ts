@@ -8,6 +8,7 @@ import { UserEntity } from '../user/entities/user.enetity';
 export class DbConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createTypeOrmOptions(connectionName?: string): TypeOrmModuleOptions {
     return {
       type: 'postgres',
@@ -16,10 +17,7 @@ export class DbConfigService implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('DB_USERNAME'),
       password: this.configService.get<string>('DB_PASSWORD'),
       database: this.configService.get<string>('DB_NAME'),
-      entities: [
-        UserEntity,
-        UrlEntity
-      ],
+      entities: [UserEntity, UrlEntity],
       synchronize: true,
     };
   }

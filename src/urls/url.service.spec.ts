@@ -7,7 +7,6 @@ import { UserEntity } from '../user/entities/user.enetity';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { NotFoundException } from '@nestjs/common';
-import utils from '../utils/functions/global-functions';
 
 const mockUrlRepository = {
   create: jest.fn(),
@@ -44,8 +43,12 @@ describe('UrlService', () => {
     }).compile();
 
     urlService = module.get<UrlService>(UrlService);
-    urlRepository = module.get<Repository<UrlEntity>>(getRepositoryToken(UrlEntity));
-    userRepository = module.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
+    urlRepository = module.get<Repository<UrlEntity>>(
+      getRepositoryToken(UrlEntity),
+    );
+    userRepository = module.get<Repository<UserEntity>>(
+      getRepositoryToken(UserEntity),
+    );
   });
 
   it('should be defined', () => {
@@ -65,7 +68,9 @@ describe('UrlService', () => {
 
       const result = await urlService.createUrl(createUrlDto);
 
-      expect(userRepository.findOneBy).toHaveBeenCalledWith({ id: createUrlDto.userId });
+      expect(userRepository.findOneBy).toHaveBeenCalledWith({
+        id: createUrlDto.userId,
+      });
       expect(urlRepository.save).toHaveBeenCalled();
       expect(result).toEqual({ id: '1', ...createUrlDto });
     });
@@ -84,12 +89,21 @@ describe('UrlService', () => {
 
   describe('urlsList', () => {
     it('should return a list of URLs', async () => {
-      const urls = [{ id: '1', shortUrl: 'shortUrl1', originalUrl: 'http://example.com', user: undefined }];
+      const urls = [
+        {
+          id: '1',
+          shortUrl: 'shortUrl1',
+          originalUrl: 'http://example.com',
+          user: undefined,
+        },
+      ];
       mockUrlRepository.find.mockResolvedValue(urls);
 
       const result = await urlService.urlsList();
 
-      expect(result).toEqual([{ id: '1', url: 'shortUrl1', usuario: undefined }]); // Ajuste aqui
+      expect(result).toEqual([
+        { id: '1', url: 'shortUrl1', usuario: undefined },
+      ]); // Ajuste aqui
     });
   });
 
@@ -108,7 +122,9 @@ describe('UrlService', () => {
   describe('updateUrl', () => {
     it('should update a URL', async () => {
       const id = '1';
-      const updateUrlDto: UpdateUrlDto = { originalUrl: 'http://updated-url.com' };
+      const updateUrlDto: UpdateUrlDto = {
+        originalUrl: 'http://updated-url.com',
+      };
 
       mockUrlRepository.update.mockResolvedValue({ affected: 1 });
 
@@ -133,14 +149,21 @@ describe('UrlService', () => {
   describe('redirectShortUrl', () => {
     it('should return the original URL and increment clicks', async () => {
       const shortId = 'shortUrl1';
-      const urlEntity = { id: '1', originalUrl: 'http://example.com', clicks: 0, shortUrl: `http://backend-challenge.com/${shortId}` };
+      const urlEntity = {
+        id: '1',
+        originalUrl: 'http://example.com',
+        clicks: 0,
+        shortUrl: `http://backend-challenge.com/${shortId}`,
+      };
 
       mockUrlRepository.findOne.mockResolvedValue(urlEntity);
       mockUrlRepository.save.mockResolvedValue(urlEntity);
 
       const result = await urlService.redirectShortUrl(shortId);
 
-      expect(urlRepository.findOne).toHaveBeenCalledWith({ where: { shortUrl: `http://backend-challenge.com/${shortId}` } });
+      expect(urlRepository.findOne).toHaveBeenCalledWith({
+        where: { shortUrl: `http://backend-challenge.com/${shortId}` },
+      });
       expect(result).toEqual('http://example.com');
       expect(urlEntity.clicks).toBe(1); // Ensure clicks are incremented
     });
@@ -150,7 +173,9 @@ describe('UrlService', () => {
 
       mockUrlRepository.findOne.mockResolvedValue(null);
 
-      await expect(urlService.redirectShortUrl(shortId)).rejects.toThrow(NotFoundException);
+      await expect(urlService.redirectShortUrl(shortId)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 

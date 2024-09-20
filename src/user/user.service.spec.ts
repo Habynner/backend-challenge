@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.enetity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,7 +8,6 @@ import { UserListDto } from './dto/list-user.dto';
 
 describe('UserService', () => {
   let userService: UserService;
-  let userRepository: Repository<UserEntity>;
 
   const mockUserRepository = {
     save: jest.fn(),
@@ -31,7 +29,6 @@ describe('UserService', () => {
     }).compile();
 
     userService = module.get<UserService>(UserService);
-    userRepository = module.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
   });
 
   afterEach(() => {
@@ -41,15 +38,15 @@ describe('UserService', () => {
   describe('createUser', () => {
     it('should create a user and return it', async () => {
       const createUserDto: CreateUserDto = {
-          email: 'test@example.com',
-          nickName: 'testUser',
-          id: '',
-          nome: '',
-          urls: [],
-          senha: '',
-          createdAt: '',
-          updatedAt: '',
-          deletedAt: ''
+        email: 'test@example.com',
+        nickName: 'testUser',
+        id: '',
+        nome: '',
+        urls: [],
+        senha: '',
+        createdAt: '',
+        updatedAt: '',
+        deletedAt: '',
       };
       const savedUser = { id: '1', ...createUserDto };
 
@@ -67,7 +64,10 @@ describe('UserService', () => {
       const users = [
         { id: '1', email: 'test@example.com', nickName: 'testUser', urls: [] },
       ];
-      const expectedList = users.map(user => new UserListDto(user.id, user.nickName, user.email, user.urls));
+      const expectedList = users.map(
+        (user) =>
+          new UserListDto(user.id, user.nickName, user.email, user.urls),
+      );
 
       mockUserRepository.find.mockResolvedValue(users);
 

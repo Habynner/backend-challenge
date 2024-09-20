@@ -3,12 +3,10 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { NestResponse } from '../utils/http/nest-response';
 import { HttpStatus } from '@nestjs/common';
 
 describe('UserController', () => {
   let userController: UserController;
-  let userService: UserService;
 
   const mockUserService = {
     createUser: jest.fn(),
@@ -29,20 +27,20 @@ describe('UserController', () => {
     }).compile();
 
     userController = module.get<UserController>(UserController);
-    userService = module.get<UserService>(UserService);
   });
 
   describe('createUser', () => {
     it('should create a user and return a NestResponse', async () => {
       const createUserDto: CreateUserDto = {
-          nome: 'John Doe', senha: 'password',
-          id: '',
-          nickName: '',
-          email: '',
-          urls: [],
-          createdAt: '',
-          updatedAt: '',
-          deletedAt: ''
+        nome: 'John Doe',
+        senha: 'password',
+        id: '',
+        nickName: '',
+        email: '',
+        urls: [],
+        createdAt: '',
+        updatedAt: '',
+        deletedAt: '',
       };
       const result = { ...createUserDto, id: '1' };
 
@@ -87,7 +85,10 @@ describe('UserController', () => {
         user: result,
         message: `The user ${updateUserDto.nome} has been updated.`,
       });
-      expect(mockUserService.updateUser).toHaveBeenCalledWith(userId, updateUserDto);
+      expect(mockUserService.updateUser).toHaveBeenCalledWith(
+        userId,
+        updateUserDto,
+      );
     });
   });
 

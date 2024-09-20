@@ -7,7 +7,6 @@ import { UnauthorizedException } from '@nestjs/common';
 describe('AuthService', () => {
   let authService: AuthService;
   let usersService: UserService;
-  let jwtService: JwtService;
 
   const mockUserService = {
     findOne: jest.fn(),
@@ -34,7 +33,6 @@ describe('AuthService', () => {
 
     authService = module.get<AuthService>(AuthService);
     usersService = module.get<UserService>(UserService);
-    jwtService = module.get<JwtService>(JwtService);
   });
 
   it('should be defined', () => {
@@ -63,7 +61,9 @@ describe('AuthService', () => {
 
       mockUserService.findOne.mockResolvedValue(user);
 
-      await expect(authService.signIn(email, password)).rejects.toThrow(UnauthorizedException);
+      await expect(authService.signIn(email, password)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
 
     it('should throw UnauthorizedException if user is not found', async () => {
@@ -72,7 +72,9 @@ describe('AuthService', () => {
 
       mockUserService.findOne.mockResolvedValue(null);
 
-      await expect(authService.signIn(email, password)).rejects.toThrow(UnauthorizedException);
+      await expect(authService.signIn(email, password)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 });
