@@ -11,12 +11,12 @@ export class UpdateUserDto {
   @IsOptional()
   nickName?: string;
 
-  @IsEmail(undefined, { message: 'email must be e-mail.' })
-  @EmailEhUnico({ message: 'This user email alredy exist.' })
+  @IsEmail(undefined, { message: 'email precisa estar no formato e-mail.' })
+  @EmailEhUnico({ message: 'Email já cadastrado.' })
   @IsOptional()
   email?: string;
 
-  @MinLength(6, { message: 'The password do not has less then 6 characthers.' })
+  @MinLength(6, { message: 'A senha não pode ter menos de 6 caracteres.' })
   @IsOptional()
   senha?: string;
 

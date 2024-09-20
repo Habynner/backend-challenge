@@ -8,11 +8,11 @@ export class CreateUrlDto {
 
   @Expose({ name: 'originalUrl' })
   @IsUrl()
-  @IsNotEmpty({ message: 'The originalUrl should not be empty.' })
-  @IsUrlUnico({ message: 'This url alredy exist.' })
+  @IsNotEmpty({ message: 'O campo originalUrl não pode estar vazio.' })
+  @IsUrlUnico({ message: 'Esta url já existe.' })
   originalUrl: string;
 
-  @Expose({ name: 'user' })
+  @Expose({ name: 'userId' })
   @IsString()
   @IsOptional()
   userId: string;
