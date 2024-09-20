@@ -11,8 +11,8 @@ import {
   } from '@nestjs/common';
   import { CreateUserDto } from './dto/create-user.dto';
   import { UpdateUserDto } from './dto/update-user.dto';
-  import { NestResponse } from '../core/http/nest-response';
-  import { NestResponseBuilder } from '../core/http/nest-response-builder';
+  import { NestResponse } from '../utils/http/nest-response';
+  import { NestResponseBuilder } from '../utils/http/nest-response-builder';
   import { UserService } from './user.service';
 
   @Controller('/users')

@@ -4,16 +4,20 @@ import {
     Delete,
     Get,
     HttpStatus,
-    NotFoundException,
     Param,
     Post,
     Put,
+    Redirect,
+    Request,
+    UseGuards,
   } from '@nestjs/common';
   import { CreateUrlDto } from './dto/create-url.dto';
   import { UpdateUrlDto } from './dto/update-url.dto';
-  import { NestResponse } from '../core/http/nest-response';
-  import { NestResponseBuilder } from '../core/http/nest-response-builder';
+  import { NestResponse } from '../utils/http/nest-response';
+  import { NestResponseBuilder } from '../utils/http/nest-response-builder';
   import { UrlService } from './url.service';
+import { CreateUrlAuthGuard } from '../auth/guards/createUrl-auth.guard';
+import { GeneralAuthGuard } from 'src/auth/guards/auth.guard';
 
   @Controller('/url')
   export class UrlController {
@@ -22,59 +26,65 @@ import {
     ) {}
 
     @Post()
-    async createUser(
+    @UseGuards(CreateUrlAuthGuard) // Autenticação opcional
+    async createUrl(
       @Body() createUrlDto: CreateUrlDto,
     ): Promise<NestResponse> {
-      const createdUrl = await this.urlService.createUser(createUrlDto);
+
+      const createdUrl = await this.urlService.createUrl(createUrlDto);
       console.log(createdUrl)
       return new NestResponseBuilder()
         .withStatus(HttpStatus.CREATED)
         .withHeader({
-          Location: `/url/${createdUrl.url}`,
+          Location: `/url/${createdUrl.originalUrl}`,
         })
         .withBody(createdUrl)
         .build();
     }
 
     @Get()
-    async usersList() {
-      const userDb = await this.urlService.usersList();
+    async urlsList() {
+      const userDb = await this.urlService.urlsList();
       return userDb;
     }
-    // @Get(':nomeDeUsuario')
-    // async usersByName(
-    //   @Param('nomeDeUsuario') nomDeUsuario: string,
-    // ): Promise<UserEntity> {
-    //   const userFind = await this.userRepository.findByName(nomDeUsuario);
-    //   if (!userFind) {
-    //     throw new NotFoundException({
-    //       statusCode: HttpStatus.NOT_FOUND,
-    //       message: 'User not found.',
-    //     });
-    //   }
-    //   return userFind;
-    // }
+
+    @UseGuards(GeneralAuthGuard)
+    @Get('user-urls')
+    async getUserUrls(@Request() req) {
+      const userId = req.user.id; // Pegue o ID do usuário autenticado do token
+      return this.urlService.findUrlsByUser(userId);
+    }
 
     @Put('/:id')
-    async updateUser(
+    @UseGuards(GeneralAuthGuard)
+    async updateUrl(
       @Param('id') id: string,
       @Body() updateUrlDto: UpdateUrlDto,
     ) {
-      const userUpdated = await this.urlService.updateUser(id, updateUrlDto);
+      const userUpdated = await this.urlService.updateUrl(id, updateUrlDto);
 
       return {
         url: userUpdated,
-        message: `The url has been updated to : ${updateUrlDto.url} `,
+        message: `The url has been updated to : ${updateUrlDto.originalUrl} `,
       };
     }
 
     @Delete('/:id')
-    async removeUser(@Param('id') id: string) {
-      const userRemoved = await this.urlService.deleteUser(id);
+    @UseGuards(GeneralAuthGuard)
+    async removeUrl(@Param('id') id: string) {
+      const userRemoved = await this.urlService.deleteUrl(id);
 
       return {
         user: userRemoved,
         message: `The url with ${id} has been deleted.`,
       };
     }
+
+    @Redirect()
+    @Get(':shortId')
+  async redirectUrl(@Param('shortId') shortId: string) {
+    const originalUrl = await this.urlService.redirectShortUrl(shortId);
+    return { url: originalUrl };
+  }
+
   }

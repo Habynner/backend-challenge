@@ -1,15 +1,18 @@
 import { CreateUrlDto } from './dto/create-url.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UrlListDto } from './dto/list-url.dto';
 import { UrlEntity } from './entities/url.entity';
 import { Repository } from 'typeorm';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { UserEntity } from '../user/entities/user.enetity';
+import utils from '../utils/functions/global-functions';
 
 @Injectable()
 export class UrlService {
+  private readonly baseUrl = 'http://backend-challenge.com';
   constructor(
+
     @InjectRepository(UrlEntity)
     private readonly urlRepository: Repository<UrlEntity>,
 
@@ -17,38 +20,62 @@ export class UrlService {
     private readonly userRopository: Repository<UserEntity>,
   ) {}
 
-  async createUser(createUrlDto: CreateUrlDto): Promise<UrlEntity>{
-    const { url, userId } = createUrlDto;
+  async createUrl(createUrlDto: CreateUrlDto): Promise<UrlEntity>{
+    const { originalUrl, userId } = createUrlDto;
 
-    const user = await this.userRopository.findOneBy({ id: userId });
-    if (!user) {
-      throw new Error('Usuário não encontrado');
+    let user: UserEntity | null = null;
+
+    if (userId) {
+      user = await this.userRopository.findOneBy({ id: userId });
+      if (!user) {
+        throw new Error('Usuário não encontrado');
+      }
     }
+    const shortUrl = `${this.baseUrl}/${utils.generateShortId(6)}`;
 
-    // Cria a nova URL associada ao usuário
-    const newUrl = this.urlRepository.create({ url, user });
+    const newUrl = this.urlRepository.create({ originalUrl, shortUrl, user });
     return this.urlRepository.save(newUrl);
   }
 
-  async usersList() {
+  async urlsList() {
     const savedUrls = await this.urlRepository.find();
     const urlsList = savedUrls.map(
-      (urls) => new UrlListDto(urls.id, urls.url, urls.user),
+      (urls) => new UrlListDto(urls.id, urls.shortUrl, urls.user),
     );
 
     return urlsList;
   }
 
-  async updateUser(id: string, updateUrlDto: UpdateUrlDto) {
+  async findUrlsByUser(userId: string): Promise<UrlEntity[]> {
+    return this.urlRepository.find({
+      where: { user: { id: userId } }
+    });
+  }
+
+  async updateUrl(id: string, updateUrlDto: UpdateUrlDto) {
     return await this.urlRepository.update(id, updateUrlDto);
   }
 
-  async deleteUser(id: string) {
+  async deleteUrl(id: string) {
     return await this.urlRepository.delete(id);
   }
 
-  async verificaUrl(url: string): Promise<boolean> {
-      const possivelUsuario = await this.urlRepository.findOneBy({ url });
+  async redirectShortUrl(shortId: string): Promise<string> {
+    const fullShortUrl = `${this.baseUrl}/${shortId}`;
+    const url = await this.urlRepository.findOne({ where: { shortUrl: fullShortUrl } });
+
+    if (!url) {
+      throw new NotFoundException('URL não encontrada');
+    }
+
+    url.clicks += 1;
+    await this.urlRepository.save(url);
+
+    return url.originalUrl;
+  }
+
+  async verificaUrl(originalUrl: string): Promise<boolean> {
+      const possivelUsuario = await this.urlRepository.findOneBy({ originalUrl });
 
       return !!possivelUsuario;
   }

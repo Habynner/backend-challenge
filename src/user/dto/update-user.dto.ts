@@ -11,11 +11,11 @@ import { UrlEntity } from 'src/urls/entities/url.entity';
   export class UpdateUserDto {
     @IsString()
     @IsOptional()
-    nome: string;
+    nome?: string;
 
     @IsString()
     @IsOptional()
-    nickName: string;
+    nickName?: string;
 
     @IsEmail(undefined, { message: 'email must be e-mail.' })
     @EmailEhUnico({ message: 'This user email alredy exist.' })
@@ -24,13 +24,13 @@ import { UrlEntity } from 'src/urls/entities/url.entity';
 
     @MinLength(6, { message: 'The password do not has less then 6 characthers.' })
     @IsOptional()
-    senha: string;
+    senha?: string;
 
 
     @IsOptional()
-    urls: UrlEntity[];
+    urls?: UrlEntity[];
 
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
+    deletedAt?: string;
   }
