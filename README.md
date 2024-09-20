@@ -27,9 +27,9 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 Certifique-se de que você tenha as seguintes ferramentas instaladas:
 
-Node.js (v22.7.0)
-[Docker](https://docs.docker.com/desktop/install/windows-install)
-[Git](https://git-scm.com/downloads)
+- Node.js (v22.7.0) ou superior.
+- [Docker](https://docs.docker.com/desktop/install/windows-install)
+- [Git](https://git-scm.com/downloads)
 
 ## Project setup
 
