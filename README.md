@@ -27,6 +27,7 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 Certifique-se de que você tenha as seguintes ferramentas instaladas:
 
+### Pré-requisitos
 - Node.js (v22.7.0) ou superior.
 - [Docker](https://docs.docker.com/desktop/install/windows-install)
 - [Git](https://git-scm.com/downloads)
