@@ -81,4 +81,4 @@ $ npm run test:cov
 ## Stay in touch
 
 - Author - Habynner Silva
-- [Linkedin]([https://nestjs.com/](https://www.linkedin.com/in/habynner-silva-developer/))
+- Linkedin - [Habynner-Silva]([https://nestjs.com/](https://www.linkedin.com/in/habynner-silva-developer/))
