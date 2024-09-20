@@ -16,9 +16,9 @@ import { AuthModule } from './auth/auth.module';
     }),
     TypeOrmModule.forRootAsync({
       useClass: DbConfigService,
-      inject: [DbConfigService]
+      inject: [DbConfigService],
     }),
-    AuthModule
-  ]
+    AuthModule,
+  ],
 })
 export class AppModule {}

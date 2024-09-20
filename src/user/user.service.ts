@@ -1,4 +1,3 @@
-import { CreateUserDto } from './dto/create-user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserListDto } from './dto/list-user.dto';
@@ -22,7 +21,8 @@ export class UserService {
   async usersList() {
     const savedUsers = await this.userRopository.find();
     const usersList = savedUsers.map(
-      (users) => new UserListDto(users.id, users.nickName, users.email, users.urls),
+      (users) =>
+        new UserListDto(users.id, users.nickName, users.email, users.urls),
     );
 
     return usersList;
@@ -44,8 +44,8 @@ export class UserService {
   }
 
   async verificaEmail(email: string): Promise<boolean> {
-      const possivelUsuario = await this.userRopository.findOneBy({ email });
+    const possivelUsuario = await this.userRopository.findOneBy({ email });
 
-      return !!possivelUsuario;
+    return !!possivelUsuario;
   }
 }

@@ -1,5 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
-import { UrlEntity } from 'src/urls/entities/url.entity';
+import { UrlEntity } from '../../urls/entities/url.entity';
 import {
   Entity,
   Column,
@@ -7,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'users' })
