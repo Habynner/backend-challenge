@@ -1,3 +1,4 @@
+import { CreateUserDto } from './dto/create-user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserListDto } from './dto/list-user.dto';
@@ -25,6 +26,13 @@ export class UserService {
     );
 
     return usersList;
+  }
+
+  async findOne(updateUserDto: UpdateUserDto) {
+    const { email } = updateUserDto;
+    const user = await this.userRopository.findOneBy({ email });
+
+    return user;
   }
 
   async updateUser(id: string, userEntity: UpdateUserDto) {

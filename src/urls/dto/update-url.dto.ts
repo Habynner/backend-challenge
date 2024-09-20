@@ -4,21 +4,23 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-vali
 //   IsNomeUsuarioUnico,
 // } from '../validator/email.validator';
 import { Expose } from 'class-transformer';
-import { UserEntity } from 'src/user/entities/user.enetity';
+import { UserEntity } from '../../user/entities/user.enetity';
 
 export class UpdateUrlDto {
 
-  @Expose({ name: 'url' })
+  @Expose({ name: 'originalUrl' })
   @IsString()
-  @IsNotEmpty({ message: 'The name should not be empty.' })
+  @IsNotEmpty({ message: 'The originalUrl should not be empty.' })
 //   @IsNomeUsuarioUnico({ message: 'This user name alredy exist.' })
-  url: string;
+  originalUrl: string;
 
   @Expose({ name: 'user' })
   @IsString()
   @IsOptional()
-  user: UserEntity;
+  user?: UserEntity;
 
-  updatedAt: string;
-  deletedAt: string;
+  @IsOptional()
+  updatedAt?: string;
+  @IsOptional()
+  deletedAt?: string;
 }
