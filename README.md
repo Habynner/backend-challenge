@@ -22,9 +22,14 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descrição
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Certifique-se de que você tenha as seguintes ferramentas instaladas:
+
+Node.js (v22.7.0)
+[Docker](https://docs.docker.com/desktop/install/windows-install)
+[Git](https://git-scm.com/downloads)
 
 ## Project setup
 
@@ -32,7 +37,45 @@
 $ npm install
 ```
 
-## Compile and run the project
+## Configure as variáveis de ambiente 
+```bash
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_USERNAME=root
+DB_PASSWORD=root123
+DB_NAME=postgres
+DB_ADMIN_EMAIL=admin@admin.com
+```
+
+## Suba os containers do PostgreSQL e pgAdmin
+```bash
+docker-compose up -d
+```
+
+## Acesse o pgAdmin
+# Você pode acessar o pgAdmin em http://localhost:8080. Use as credenciais definidas no docker-compose.yml para login e adicione o servidor PostgreSQL com as seguintes configurações:
+```bash
+Username: admin@admin.com
+Password: root123
+```
+
+## Crie um novo server
+# Click em 'Add New Server' e siga os passos abaixo e depois click em 'Save':
+```bash
+# General
+Name: teddy_challenge
+
+#Connection
+Host name/address: postgres
+Port: 5432
+Maintenance databse: postgres
+Username: root
+Password: root123
+```
+
+## Compile e rode o projeto
+# Link para a documentação do postman. 
+[doc](https://documenter.getpostman.com/view/12934846/2sAXqta1XF)
 
 ```bash
 # development
@@ -41,45 +84,19 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
 
-## Run tests
+## Rode os testes
 
 ```bash
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
 # test coverage
 $ npm run test:cov
 ```
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- Author - Habynner Silva
+- [Linkedin]([https://nestjs.com/](https://www.linkedin.com/in/habynner-silva-developer/))
